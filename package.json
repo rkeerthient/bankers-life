@@ -51,7 +51,7 @@
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
     "@vitejs/plugin-react": "^4.2.1",
-    "@yext/pages": "1.0.0-rc.7",
+    "@yext/pages": "1.0.0-rc.8",
     "autoprefixer": "^10.4.17",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",
