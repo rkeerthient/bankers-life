@@ -189,7 +189,10 @@ export const SearchPane = () => {
         <div className="flex flex-col px-4">
           <div className="h-40 bg-[#e0e0e0]"></div>
           <div className="flex flex-col gap-4 p-4">
-            <SearchBar onSearch={handleSearch}></SearchBar>
+            <SearchBar
+              onSearch={handleSearch}
+              placeholder="Ask questions about your policies or account"
+            ></SearchBar>
             <div className="border-b-2">
               <div className="w-full px-8 flex justify-between  items-center text-lg font-semibold">
                 {verticals.map((item, index) => (
