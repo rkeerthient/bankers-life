@@ -22,14 +22,16 @@ const FAQ = ({ result }: CardProps<Faq>) => {
             <Disclosure.Panel className="px-4 pb-2 text-sm text-gray-800">
               <div className="flex flex-col gap-2">
                 <div>{answer}</div>
-                <div className="mt-2 flex items-center gap-x-4 ">
-                  <a
-                    href={c_primaryCTA?.link}
-                    className="relative border z-10  bg-gray-50 px-3 py-1.5 font-medium text-[#218a3c] hover:bg-gray-100 text-base"
-                  >
-                    {c_primaryCTA?.label}
-                  </a>
-                </div>
+                {c_primaryCTA && (
+                  <div className="mt-2 flex items-center gap-x-4 ">
+                    <a
+                      href={c_primaryCTA?.link}
+                      className="relative border z-10  bg-gray-50 px-3 py-1.5 font-medium text-[#218a3c] hover:bg-gray-100 text-base"
+                    >
+                      {c_primaryCTA?.label}
+                    </a>
+                  </div>
+                )}
               </div>
             </Disclosure.Panel>
           </>

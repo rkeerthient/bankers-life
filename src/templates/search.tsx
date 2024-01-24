@@ -76,7 +76,12 @@ const verticals = [
   { name: "FAQs", verticalKey: "faqs", cardType: FAQ, classes: "" },
   { name: "Products", verticalKey: "products", cardType: Product, classes: "" },
 
-  { name: "Files", verticalKey: "files", cardType: File, classes: "" },
+  {
+    name: "Policies & Forms",
+    verticalKey: "files",
+    cardType: File,
+    classes: "",
+  },
   {
     name: "Insights",
     verticalKey: "insights",
@@ -260,7 +265,7 @@ export const SearchPane = () => {
                         appliedFiltersContainer: `!flex flex-row`,
                       }}
                     ></AppliedFilters>
-                    {vectorResults && (
+                    {/* {vectorResults && (
                       <div className="flex flex-col gap-4 ">
                         {vectorResults.map((item, index) => {
                           return (
@@ -281,7 +286,7 @@ export const SearchPane = () => {
                           );
                         })}
                       </div>
-                    )}
+                    )} */}
                     <UniversalResults
                       showAppliedFilters={true}
                       customCssClasses={{
@@ -293,13 +298,13 @@ export const SearchPane = () => {
                         files: {
                           SectionComponent: FlexSection,
                           CardComponent: File,
-                          label: "Files",
+                          label: "Policies & Forms",
                           viewAllButton: true,
                         },
                         faqs: {
                           SectionComponent: FlexSection,
                           CardComponent: FAQ,
-                          label: "Vendors",
+                          label: "FAQs",
                           viewAllButton: true,
                         },
                         products: {
