@@ -20,9 +20,11 @@ import {
   UniversalResults,
   DirectAnswer,
   onSearchFunc,
+  VerticalConfigMap,
 } from "@yext/search-ui-react";
 import {
   SearchHeadlessProvider,
+  UniversalLimit,
   provideHeadless,
   useSearchActions,
   useSearchState,
@@ -97,6 +99,10 @@ const SearchWrapper: Template<
 };
 export default SearchWrapper;
 
+const verticalLimit: UniversalLimit = {
+  files: 4,
+};
+
 export const SearchPane = () => {
   const [currentVertical, setCurrentVertical] = useState<string>("");
   const searchActions = useSearchActions();
@@ -105,6 +111,7 @@ export const SearchPane = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [vectorResults, setVectorResults] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
+
   useEffect(() => {
     setIsLoading(true);
     searchTerm && searchActions.setQuery(searchTerm);
@@ -124,6 +131,7 @@ export const SearchPane = () => {
       ? (searchActions.setVertical(currentVertical),
         searchActions.executeVerticalQuery().then(() => setIsLoading(false)))
       : (searchActions.setUniversal(),
+        searchActions.setUniversalLimit(verticalLimit),
         searchActions.executeUniversalQuery().then((res) => {
           setVectorResults(
             res!.verticalResults.find(
@@ -171,7 +179,7 @@ export const SearchPane = () => {
   };
   return (
     <div className="flex  w-full">
-      <div className="w-1/4 bg-[#2e745b] min-h-screen"></div>
+      <div className="w-1/4 bg-gradient-to-b from-[#385b7b]  to-[#2e745b] min-h-screen"></div>
       <div className="w-3/4">
         <div className="flex flex-col px-4">
           <div className="h-40 bg-[#e0e0e0]"></div>
@@ -242,7 +250,7 @@ export const SearchPane = () => {
                     </div>
                   </>
                 ) : (
-                  <>
+                  <div className="mx-8">
                     <DirectAnswer
                       customCssClasses={{ answerContainer: "my-4" }}
                     />
@@ -277,7 +285,7 @@ export const SearchPane = () => {
                     <UniversalResults
                       showAppliedFilters={true}
                       customCssClasses={{
-                        universalResultsContainer: "w-full mx-auto my-6 ",
+                        universalResultsContainer: "w-fullmy-6 ",
                         sectionHeaderIconContainer: "hidden",
                         sectionHeaderLabel: "-mb-4",
                       }}
@@ -306,9 +314,15 @@ export const SearchPane = () => {
                           label: "Insights",
                           viewAllButton: true,
                         },
+                        videos: {
+                          SectionComponent: Grid3Section,
+                          CardComponent: Video,
+                          label: "Videos",
+                          viewAllButton: true,
+                        },
                       }}
                     />
-                  </>
+                  </div>
                 )}
               </div>
             )}
