@@ -5,8 +5,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
 const Video = ({ result }: CardProps<Ce_video>) => {
   const { name, description } = result;
   const { videos } = result.rawData;
-  console.log(JSON.stringify(videos));
-
+ 
   const videoURL = `https://www.youtube.com/embed/${videos[0].video.url.split("=")[1]}?autoplay=0`;
 
   const iframeRef = useRef<HTMLIFrameElement>(null);

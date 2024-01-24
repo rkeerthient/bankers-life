@@ -19,15 +19,10 @@ import {
   Geolocation,
   UniversalResults,
   DirectAnswer,
-  CardProps,
-  MapboxMap,
-  OnDragHandler,
   onSearchFunc,
 } from "@yext/search-ui-react";
 import {
-  Matcher,
   SearchHeadlessProvider,
-  SelectableStaticFilter,
   provideHeadless,
   useSearchActions,
   useSearchState,
@@ -39,10 +34,6 @@ import Video from "../components/cards/Video";
 import File from "../components/cards/File";
 import FAQ from "../components/cards/FAQ";
 import Product from "../components/cards/Product";
-import MapPin from "../components/MapPin";
-import { LngLat, LngLatBounds } from "mapbox-gl";
-import * as React from "react";
-import { useCallback } from "react";
 import Insights from "../components/cards/Insights";
 
 export const config: TemplateConfig = {
@@ -82,6 +73,8 @@ const verticals = [
   },
   { name: "FAQs", verticalKey: "faqs", cardType: FAQ, classes: "" },
   { name: "Products", verticalKey: "products", cardType: Product, classes: "" },
+
+  { name: "Files", verticalKey: "files", cardType: File, classes: "" },
   {
     name: "Insights",
     verticalKey: "insights",
@@ -115,6 +108,18 @@ export const SearchPane = () => {
   useEffect(() => {
     setIsLoading(true);
     searchTerm && searchActions.setQuery(searchTerm);
+    const queryParams = new URLSearchParams(window.location.search);
+    if (searchTerm) {
+      queryParams.set("query", searchTerm);
+    } else {
+      queryParams.delete("query");
+    }
+    if (currentVertical) {
+      queryParams.set("verticalKey", currentVertical);
+    } else {
+      queryParams.delete("verticalKey");
+    }
+    history.pushState(null, "", "?" + queryParams.toString());
     currentVertical
       ? (searchActions.setVertical(currentVertical),
         searchActions.executeVerticalQuery().then(() => setIsLoading(false)))
@@ -132,6 +137,7 @@ export const SearchPane = () => {
   const handleSearch: onSearchFunc = (searchEventData) => {
     const { query } = searchEventData;
     query && setSearchTerm(query);
+    const queryParams = new URLSearchParams(window.location.search);
   };
   const Grid3Section = ({ results, CardComponent, header }: any) => {
     if (!CardComponent) {
@@ -148,11 +154,26 @@ export const SearchPane = () => {
       </div>
     );
   };
+  const FlexSection = ({ results, CardComponent, header }: any) => {
+    if (!CardComponent) {
+      return <div>Missing Card Component</div>;
+    }
+    return (
+      <div>
+        <div>{header}</div>
+        <div className="flex flex-col gap-4 ">
+          {results.map((r: any, index: number) => (
+            <CardComponent key={index} result={r} />
+          ))}
+        </div>
+      </div>
+    );
+  };
   return (
     <div className="flex  w-full">
       <div className="w-1/4 bg-[#2e745b] min-h-screen"></div>
       <div className="w-3/4">
-        <div className="flex flex-col">
+        <div className="flex flex-col px-4">
           <div className="h-40 bg-[#e0e0e0]"></div>
           <div className="flex flex-col gap-4 p-4">
             <SearchBar onSearch={handleSearch}></SearchBar>
@@ -234,8 +255,6 @@ export const SearchPane = () => {
                     {vectorResults && (
                       <div className="flex flex-col gap-4 ">
                         {vectorResults.map((item, index) => {
-                          console.log(item);
-
                           return (
                             <div
                               className="border p-4 flex flex-col"
@@ -264,16 +283,19 @@ export const SearchPane = () => {
                       }}
                       verticalConfigMap={{
                         files: {
+                          SectionComponent: FlexSection,
                           CardComponent: File,
                           label: "Files",
                           viewAllButton: true,
                         },
                         faqs: {
+                          SectionComponent: FlexSection,
                           CardComponent: FAQ,
                           label: "Vendors",
                           viewAllButton: true,
                         },
                         products: {
+                          SectionComponent: FlexSection,
                           CardComponent: Product,
                           label: "Products",
                           viewAllButton: true,
