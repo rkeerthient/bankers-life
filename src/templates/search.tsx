@@ -285,7 +285,7 @@ export const SearchPane = () => {
                     <UniversalResults
                       showAppliedFilters={true}
                       customCssClasses={{
-                        universalResultsContainer: "w-fullmy-6 ",
+                        universalResultsContainer: "w-full my-6 ",
                         sectionHeaderIconContainer: "hidden",
                         sectionHeaderLabel: "-mb-4",
                       }}
